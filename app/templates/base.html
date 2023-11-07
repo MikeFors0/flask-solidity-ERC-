@@ -3,9 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <title>NetWork</title>
 </head>
 <body>
-    <h1>nice</h1>
+    <div class="sidenav">
+        {% if session.get('user') == None %}
+            <a href="/">Home</a>
+            <a href="/login">Login</a>
+            <a href="#clients">Clients</a>
+            <a href="#contact">Contact</a>
+        {% else %}
+            <a href="/">Home</a>
+            <a href="/lk">Profile</a>
+        {% endif %}
+        </div>
+
+    <div>
+        {% if session.get('user') != None: %}
+            <p>Address Contract:  {{ address_contract }}</p>
+        {% endif %}
+    </div>
+
+    <main>
+        {% block main %}
+
+        {% endblock %}
+        <!-- <div>
+            <p>Wallet address - <span id="wallet-address"></span></p>
+            <p>your address reg:<span id="msg"></span></p>
+            <button onclick="signMessage()">Sign Message</button>
+        </div> -->
+
+    </main>
+    <footer class="footer">
+
+        <p>Copyright &copy; Smolkin Matvey - 2023 year</p>
+    </footer>
+    <!-- <script>
+        var account =null;
+        var signature =null;
+        var message = "Signing message in wallet...";
+
+        (async () => {
+            if (window.ethereum) {
+                await window.ethereum.send('eth_requestAccounts');
+                window.web3 = new Web3(window.ethereum);
+
+                var accounts = await web3.eth.getAccounts();
+                account = accounts[0];
+                document.getElementById("wallet-address").innerHTML = account;
+            }
+        })();
+        
+        async function signMessage() {
+            signature = await web3.eth.personal.sign(message, account);
+            console.log("Signature" + signature);
+        }
+        async function recover() {
+            var recoverAddress = await web3.eth.personal.ecRecover(message, signature);
+            document.getElementById("wallet-address").innerHTML = recoverAddress;
+            console.log("Recover Address: " + recoverAddress);
+        }
+    </script> -->
 </body>
 </html>

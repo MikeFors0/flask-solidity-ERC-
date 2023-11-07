@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+
+<form method="post">
+    <h1>Продажа NFT</h1>
+    <div>
+        {{form.hidden_tag()}}
+        <p>
+            {{form.args(size=20)}}
+        </p>
+    </div>
+    <button type="submit">Продать</button>
+</form>
+<div>
+    {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}

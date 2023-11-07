@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+<div>
+    <h1>NFT</h1>
+    <div>
+        {% for Get_All_Sell_NFT in Get_All_Sell_NFTS %}
+            <div>
+                <h3>{{ Get_All_Sell_NFT }}</h3>
+                <a href="/Buy_NFT/{{Get_All_Sell_NFT[0]}}">Купить</a>
+            </div>
+        {% endfor %}
+        <p>{{ Get_All_Sell_NFT }}</p>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

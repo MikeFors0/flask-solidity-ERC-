@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+<div>
+    <h1>Actions</h1>
+    <div>
+        {% for Get_All_Action in Get_All_Actions %}
+            <div>
+                <h3>{{ Get_All_Action }}</h3>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+<form method="post">
+    <div>
+        <h1>Sign In</h1>
+    </div>
+    <div>
+        <input type="password" name="key">
+    </div>
+    <div>
+        <button type="submit">Sign In</button>
+    </div>
+</form>
+<div>
+    {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
+    {% endfor %}
+</div>
+
+
+
+
+{% endblock %}

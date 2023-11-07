@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+
+<div>
+
+    <div>
+        <h1>Hello, {{ session["user"[1]] }}!</h1>
+    </div>
+    
+    <div>
+        <p>Address: {{ session["user"] }}</p>
+    </div>
+    <div>
+        Balance_token: {{Get_Ballanse}}
+    </div>
+
+</div>
+<div>
+    <h1>MY NFT</h1>
+    <div>
+            <div>
+                <h3>{{ Get_All_User_NFT}}</h3>
+                <a href="/Sell_NFT/{{ Get_All_User_NFT[0]}}">Продать</a>
+            </div>
+    </div>
+</div>
+
+<div>
+    <h1>MY Collection</h1>
+    <div>
+        {% for Get_All_User_Collection in Get_All_User_Collections %}
+            <div>
+                <h3>{{ Get_All_User_Collection }}</h3>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -5,30 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/style.css">
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
-    <title>NetWork</title>
+    <title>NFT </title>
 </head>
 <body>
     <div class="sidenav">
         {% if session.get('user') == None %}
             <a href="/">Home</a>
+            <a href="/NFT">NFT</a>
+            <a href="/Action">Action</a>
             <a href="/login">Login</a>
-            <a href="#clients">Clients</a>
-            <a href="#contact">Contact</a>
         {% else %}
             <a href="/">Home</a>
-            <a href="/lk">Profile</a>
-        {% endif %}
-        </div>
-
-    <div>
-        {% if session.get('user') != None: %}
-            <p>Address Contract:  {{ address_contract }}</p>
+            <a href="/lk">LK</a>
+            <a href="#zatemnenieProfile">Profile</a>
+            <a href="/NFT">NFT</a>
+            <a href="/Set_Only_NFT">Set NFT</a>
+            <a href="/Action">Action</a>
+            <a href="/#zatemnenieBuy">Buy Profi</a>
+            <a href="/logout">Logout</a>
         {% endif %}
     </div>
 
+    {% if session.get('user') != None %}
+        <div>
+            <div id="zatemnenieProfile">
+                <div id="oknoProfile">
+                    <h1>Profile:</h1>
+                    <h2>Login:  {{ session["user"][1] }}</h2>
+                    <p>Addres account:   {{ session["user"][0] }}</p>
+                    <a href="" class="closeProfile">Закрыть</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div>
+        <div id="zatemnenieBuy">
+            <div id="oknoBuy">
+                <h1>Покупка Токенов</h1>
+                <form method="post">
+                    <input type="text" name="amount" placeholder="amount" title="amount" required>
+                    <button type="submit">Купить</button>
+                </form>
+                <a href="" class="closeBuy">Закрыть</a>
+                <div>
+                    {% with messages = get_flashed_messages(category_filter='') %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                
+                </div>
+            </div>
+        </div>
+    </div>
     <main>
         {% block main %}
-
         {% endblock %}
         <!-- <div>
             <p>Wallet address - <span id="wallet-address"></span></p>
@@ -38,8 +71,10 @@
 
     </main>
     <footer class="footer">
-
         <p>Copyright &copy; Smolkin Matvey - 2023 year</p>
+        {% if session.get('user') != None: %}
+            <small>Address Contract:  {{ address_contract }}</small>
+        {% endif %}
     </footer>
     <!-- <script>
         var account =null;

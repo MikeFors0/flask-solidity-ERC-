@@ -2,32 +2,30 @@
 
 
 {% block main %}
-
-
-<div>
-
-    <div>
-        <h1>Hello, {{ session["user"[1]] }}!</h1>
-    </div>
-    
-    <div>
-        <p>Address: {{ session["user"] }}</p>
-    </div>
-    <div>
-        Balance_token: {{Get_Ballanse}}
-    </div>
-
-</div>
-<div>
+<div class="myNFT">
     <h1>MY NFT</h1>
-    <div>
-            <div>
-                <h3>{{ Get_All_User_NFT}}</h3>
-                <a href="/Sell_NFT/{{ Get_All_User_NFT[0]}}">Продать</a>
-            </div>
-    </div>
-</div>
+    <div class="in-myNFTS">
+    {% for res in res %}
+        <div class="in-myNFT">
+            <h3>{{ res}}</h3>
 
+            <form method="post" class="lkSell" >
+                
+                <input type="text" name="amount" placeholder="amount" size="5px" required>
+                <button name="id" value="{{res[0][0]}}">Продать {{res[0][0]}}</button>
+            </form>
+        </div>
+    {% endfor %}
+    </div>
+
+</div>
+{% with messages = get_flashed_messages(category_filter='') %}
+   {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+   {% endif %}
+{% endwith %}
 <div>
     <h1>MY Collection</h1>
     <div>

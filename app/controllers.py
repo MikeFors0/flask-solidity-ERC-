@@ -16,13 +16,22 @@ def check_session(html):
         return redirect("/login")
     return render_template(f"{html}.html")
 
-@app.route('/')
+@app.route('/', methods=["POST", "GET"])
 def index():
+    if request.method == "POST":
+        amount = request.form.get('amount', type=int)
+        result = web.buy(amount)
+        check_result(result)
     return render_template('base.html', address_contract=web.config['address'])
 
 
-@app.route('/NFT')
+@app.route('/NFT', methods=["POST", "GET"])
 def NFT():
+    if request.method == "POST":
+        amount = request.form.get('amount', type=int)
+        id = request.form.get("id", type=int)
+        result = web.func(name="Buy_NFT", args=[id, amount], operation="transact")
+        check_result(result)
     return render_template('NFT.html', Get_All_Sell_NFT=func(name="Get_All_Sell_NFT"))
 
 
@@ -54,18 +63,26 @@ def login():
 @app.route('/Set_Only_NFT', methods=['GET', 'POST'])
 def set():
     if request.method == "POST":
-        amount = request.form.get("amount")
-        price = request.form.get("price")
+        amount = request.form.get("amount", type=int)
+        price = request.form.get("price",  type=int)
         res = web.func(name="Set_Only_NFT", args=[amount, price], operation="transact")
         check_result(res)
     return check_session("Set_Only_NFT")
 
 
-@app.route('/lk')
+@app.route('/lk', methods=["GET", "POST"])
 def lk():
     if not session.get('user'):
         return redirect('/login')
-    return render_template('lk.html', Get_All_User_NFT=web.func("Get_All_User_NFT"), Get_All_User_Collection=web.func("Get_All_User_Collections"), Get_Ballanse=web.func("Get_Ballanse"),)
+    Get_All_User_NFT=web.func("Get_All_User_NFT")
+    res = zip(Get_All_User_NFT[0], Get_All_User_NFT[1])
+    if request.method == "POST":
+        amount = request.form.get('amount', type=int)
+        id = request.form.get("id", type=int)
+        result = web.func(name="Sell_NFT", args=[id, amount], operation="transact")
+        print(res)
+        check_result(result)
+    return render_template('lk.html', res=res,  Get_All_User_Collection=web.func("Get_All_User_Collections"), Get_Ballanse=web.func("Get_Ballanse"))
     
 
 @app.route('/Buy_Profi', methods=['GET', 'POST'])
@@ -75,22 +92,6 @@ def Buy_Profi():
         res = web.buy(amount)
         check_result(res)
     return check_session('Buy_Profi')
-
-
-@app.route('/Sell_NFT/<int:id>', methods=['GET', 'POST'])
-def Sell_NFT(id):
-    if request.method == "POST":
-        res = web.func(name="Sell_NFT", args=[id], operation="transact")
-        check_result(res)
-    return check_session('Sell_NFT')
-
-
-@app.route('/Buy_NFT/<int:id>', methods=['GET', 'POST'])
-def Buy_NFT(id):
-    if request.method == 'POST':
-        res = web.func(name="Buy_NFT", args=[id], operation="transact")
-        check_result(res)
-    return check_session('Buy_NFT')
 
 
 @app.route('/logout')

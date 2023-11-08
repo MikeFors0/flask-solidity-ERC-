@@ -3,14 +3,14 @@
 
 {% block main %}
 
-<form method="post">
+<form method="post" class="form">
     <div>
         <h1>Sign In</h1>
     </div>
     <div>
-        <input type="password" name="key">
+        <input type="password" name="key" placeholder="input your secret key" title="input your secret key" required>
     </div>
-    <div>
+    <div class="button">
         <button type="submit">Sign In</button>
     </div>
 </form>

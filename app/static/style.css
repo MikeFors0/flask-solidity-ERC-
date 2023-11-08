@@ -8,7 +8,62 @@ body {
     background-color: #1c1c1c;
 }
 
+main {
+    max-width: min-content;
+    padding: 0px 10px;
+    margin: 0 auto;
+    border: 2px solid black;
+}
 
+.form {
+    margin-top: 90%;
+    color: white;
+    grid-gap: 20px;
+    padding: 50px 45px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-width:fit-content;
+
+}
+
+.form h1 {
+    margin-bottom: 20px;
+    color: lightgrey;
+    font-size: 30px;
+}
+
+.form input {
+    background-color: #1c1c1c;
+    border: none;
+    color: lightgrey;
+    outline: none;
+    border-bottom: 3px solid lightgrey;
+    min-width: 100%;
+    font-size: 15px;
+}
+
+.form .button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.button button {
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    font-size: 17px;
+    background-color: #1c1c1c;
+    margin-top: 10px;
+    min-width:100%;
+    padding: 6px;
+    transition: all 0.3s;
+}
+
+.button button:hover {
+    background-color: lightgrey;
+    color:  black;
+}
 
 .sidenav {
     height: 100%;
@@ -39,11 +94,8 @@ body {
     /* border: 2px solid #213958; */
 }
 
-main {
-    margin: 260px;
-    font-size: 28px; 
-    padding: 0px 10px;
-}
+
+
 
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
@@ -52,16 +104,173 @@ main {
 
 
 footer {
-    position: absolute;
+    display: flex;
+    position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
     z-index: 1;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.589);
+    border-top: 3px solid rgb(116, 116, 116);
+
 }
 
-footer p {
+footer p,footer small{
+    justify-content: space-around;
+    align-items: center;
+
     padding: 10px;
-    background-color: black;
-    border-top: 3px solid white;
-    color: white;
+    color: lightgrey;
 }
+
+/* profile */
+#zatemnenieProfile {
+    background: rgba(102, 102, 102, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+  }
+  #oknoProfile {
+    width: 600px;
+    height: 200px;
+    padding: 15px 10px;
+    text-align: center;
+    border: 2px solid lightgrey;
+    border-radius: 10px;
+    color: lightgrey;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    background: #1c1c1c;
+  }
+  #oknoProfile p, #oknoProfile h1, #oknoProfile h2 {
+      margin: 10px;
+  }
+  #oknoProfile h2, #oknoProfile p {
+    text-align: start;
+  }
+  #zatemnenieProfile:target {display: block;}
+  .closeProfile {
+    display: inline-block;
+    color: lightgrey;
+    padding: 5px 12px;
+    margin: 70px;
+    border-radius: 15px;
+    text-decoration: none;
+    background: black;
+    cursor:pointer;
+    transition: all 0.3s;
+  }
+  .closeProfile:hover {background: lightgrey; color: black;}
+
+.myNFT {
+    display: flex;
+    flex-direction: column;
+    justify-content:  center;
+    margin: 20px auto;
+    color: lightgrey;
+
+}
+.myNFT h1 {
+    text-align: start;
+    margin-bottom: 10px;
+}
+
+.in-myNFTS {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+    width: 1200px;
+}
+
+.in-myNFT {
+    border-radius: 10px;
+    padding: 25px 10px;
+    border: 2px solid lightgray;
+    background-color: #111;
+    margin: 5px;
+    color: lightgrey;
+}
+
+.in-myNFT h3 {
+    margin-bottom: 16px;
+}
+
+.in-myNFT button {
+    /* border: 2px solid blueviolet; */
+    background-color:orange;
+    border-radius: 10px;
+    padding: 5px 10px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.1s;
+    border: 2px solid orange;
+}
+
+.in-myNFT button:hover {
+    border: 2px solid lightgray;
+}
+
+.lkSell {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* Buy */
+#zatemnenieBuy {
+    background: rgba(102, 102, 102, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+  }
+  #oknoBuy {
+    width: 600px;
+    height: 200px;
+    padding: 15px 10px;
+    text-align: center;
+    border: 2px solid lightgrey;
+    border-radius: 10px;
+    color: lightgrey;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    background: #1c1c1c;
+  }
+  #oknoBuy form {
+    border: 2px solid red;
+
+  }
+  #oknoBuy input, #oknoBuy h1, #oknoBuy h2 {
+      margin: 10px;
+  }
+  #oknoBuy h2, #oknoBuy p {
+    text-align: start;
+  }
+  #zatemnenieBuy:target {display: block;}
+  .closeBuy {
+    display: inline-block;
+    color: lightgrey;
+    padding: 5px 12px;
+    margin: 70px;
+    border-radius: 15px;
+    text-decoration: none;
+    background: black;
+    cursor:pointer;
+    transition: all 0.3s;
+  }
+  .closeProfile:hover {background: lightgrey; color: black;}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+
+<form method="post" class="form">
+    <h1>Create Collection</h1>
+    <div>
+        <label>Name:</label>
+        <input type="text" name="name" placeholder="name collection" title="enter name collection" autocapitalize="off" required>
+    </div>
+    <div>
+        <label>Description:</label>
+        <input type="text" name="description" placeholder="description collection" title="enter description collection" required>
+    </div>
+    <div class="button">
+        <button type="submit" >Create</button>
+    </div>
+</form>
+{% endblock %}

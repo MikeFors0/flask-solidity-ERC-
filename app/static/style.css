@@ -186,14 +186,17 @@ footer p,footer small{
 
 .in-myNFTS {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
     width: 1200px;
 }
 
 .in-myNFT {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 10px;
-    padding: 25px 10px;
+    padding: 35px 10px;
     border: 2px solid lightgray;
     background-color: #111;
     margin: 5px;
@@ -201,7 +204,17 @@ footer p,footer small{
 }
 
 .in-myNFT h3 {
-    margin-bottom: 16px;
+    display: block;
+    min-width: 120px;
+}
+
+.in-myNFT a {
+    color: lightgrey;
+
+}
+
+.in-myNFT a:hover {
+    text-decoration: none;
 }
 
 .in-myNFT button {
@@ -213,15 +226,17 @@ footer p,footer small{
     text-decoration: none;
     transition: all 0.1s;
     border: 2px solid orange;
+    font-size: 20px
 }
 
 .in-myNFT button:hover {
     border: 2px solid lightgray;
+    background-color: red;
 }
 
 .lkSell {
     display: flex;
-    justify-content: space-between;
+    grid-gap: 25px;
 }
 
 
@@ -274,3 +289,89 @@ footer p,footer small{
     transition: all 0.3s;
   }
   .closeProfile:hover {background: lightgrey; color: black;}
+
+
+  .descriptionModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1c1c1c;
+    padding: 100px;
+    border: 3px solid lightgrey;
+    border-radius: 30px;
+}
+
+.modalContent h1 {
+    margin-top: -20px;
+}
+
+.modalContent p {
+    font-size: 20px;
+}
+
+.closeDescription {
+    display: block;
+    text-align: right;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+
+
+.container {
+    position: relative;
+}
+
+.container button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.show {
+    display: block;
+}
+
+.flash {
+    position: fixed;
+    top: 20px;
+    right: 0;
+    display: block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: 2px solid white;
+}
+
+.error {
+    position: fixed;
+    top: 20px;
+    right: 0;
+    display: block;
+    background-color: red;
+    color: white;
+    padding: 10px 15px;
+    border: 2px solid white;
+}

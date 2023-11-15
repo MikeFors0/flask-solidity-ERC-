@@ -252,7 +252,7 @@ contract Contract is ERC20, ERC1155 {
     }
     
     
-    function Set_Collection() public {
+    function Set_Collection() public{
         collection[amount_collection] = Collection(
             amount_collection,
             new uint[](0),
@@ -428,83 +428,13 @@ contract Contract is ERC20, ERC1155 {
 
         user[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] = User(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, "Gey");
 
-        ERC1155._mint(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, variety_nft, 10, "");
-        user_amount_variety_nft[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] += 1;
-        nft[variety_nft] = NFT(variety_nft, false, false, 1000);
-        variety_nft += 1;
-
-        ERC1155._mint(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, variety_nft, 20, "");
-        user_amount_variety_nft[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] += 1;
-        nft[variety_nft] = NFT(variety_nft, false, false, 2000);
-        variety_nft += 1;
-
-        ERC1155._mint(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, variety_nft, 30, "");
-        user_amount_variety_nft[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] += 1;
-        nft[variety_nft] = NFT(variety_nft, false, false, 3000);
-        variety_nft += 1;
-
-
-        //создадим коллекцию
-        collection[amount_collection] = Collection(amount_collection, new uint[](0), new uint[](0), false);
-        user_amount_variety_collection[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] += 1;
-        collection_owner[amount_collection] = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
-        // +1 nft в эту коллекцию
-        ERC1155._mint(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, variety_nft, 1, "");
-        nft[variety_nft] = NFT(variety_nft, true, false, 0);
-        collection[amount_collection].Nft_In_Collection.push(variety_nft);
-        user_amount_variety_nft[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] += 1;
-        variety_nft += 1;
-        amount_collection += 1;
-
-        //создадим коллекцию
-        collection[amount_collection] = Collection(amount_collection, new uint[](0), new uint[](0), false);
-        user_amount_variety_collection[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] += 1;
-        collection_owner[amount_collection] = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
-        amount_collection += 1;
+        
 
 
 
 
 
         user[0x70997970C51812dc3A010C7d01b50e0d17dc79C8] = User(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, "gdfgdfg");
-        //создадим коллекцию
-        collection[amount_collection] = Collection(amount_collection, new uint[](0), new uint[](0), false);
-        user_amount_variety_collection[0x70997970C51812dc3A010C7d01b50e0d17dc79C8] += 1;
-        collection_owner[amount_collection] = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
-        // +1 nft в эту коллекцию
-        ERC1155._mint(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, variety_nft, 1, "");
-        nft[variety_nft] = NFT(variety_nft, true, false, 0);
-        collection[amount_collection].Nft_In_Collection.push(variety_nft);
-        variety_nft += 1;
-        amount_collection += 1;
-
-
-
-        user_amount_variety_nft[0x70997970C51812dc3A010C7d01b50e0d17dc79C8] += 1;
-
-
-        ERC1155._mint(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, variety_nft, 40, "");
-        user_amount_variety_nft[0x70997970C51812dc3A010C7d01b50e0d17dc79C8] += 1;
-        nft[variety_nft] = NFT(variety_nft, false, false, 4000);
-        variety_nft += 1;
-
-        ERC1155._mint(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, variety_nft, 40, "");
-        user_amount_variety_nft[0x70997970C51812dc3A010C7d01b50e0d17dc79C8] += 1;
-        nft[variety_nft] = NFT(variety_nft, false, false, 4000);
-        variety_nft += 1;
-
-         ERC1155._mint(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, variety_nft, 60, "");
-        user_amount_variety_nft[0x70997970C51812dc3A010C7d01b50e0d17dc79C8] += 1;
-        nft[variety_nft] = NFT(variety_nft, false, false, 6000);
-        variety_nft += 1;
-
-
-        ERC1155._mint(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, variety_nft, 50, "");
-        user_amount_variety_nft[0x70997970C51812dc3A010C7d01b50e0d17dc79C8] += 1;
-        nft[variety_nft] = NFT(variety_nft, false, false, 5000);
-        variety_nft += 1;
-
-
 
 
         user[0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC] = User(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, "ouipouio");

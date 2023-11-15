@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+
+<form method="post" class="form">
+    <h1>Create NFT</h1>
+    <div>
+        <label>Name:</label>
+        <input type="text" name="name" placeholder="name nft" title="enter name nft" autocapitalize="off" required>
+    </div>
+    <div>
+        <label>Description:</label>
+        <input type="text" name="description" placeholder="description nft" title="enter description nft" autocapitalize="off" required>
+    </div>
+    <div>
+        <label>Amount:</label>
+        <input type="number" name="amount" placeholder="amount nft" title="enter amout nft" min="1" autocapitalize="off" required>
+    </div>
+    <div>
+        <label>Price:</label>
+        <input type="number" name="price" placeholder="price nft" title="enter price nft" min="1" autocapitalize="off" required>
+    </div>
+    <div class="button">
+        <button type="submit" >Create</button>
+    </div>
+</form>
+{% endblock %}

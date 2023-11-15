@@ -5,36 +5,71 @@
 <div class="myNFT">
     <h1>MY NFT</h1>
     <div class="in-myNFTS">
-    {% for res in res %}
+    {% for userNFT in userNFT %}
         <div class="in-myNFT">
-            <h3>{{ res}}</h3>
-
-            <form method="post" class="lkSell" >
-                
-                <input type="text" name="amount" placeholder="amount" size="5px" required>
-                <button name="id" value="{{res[0][0]}}">Продать {{res[0][0]}}</button>
+            <h3>Name:{{ userNFT['name']}}</h3>
+            <a href="#" class="descriptionLink">▽ Description</a>
+            <div class="descriptionModal">
+                <div class="modalContent">
+                    <h1>Description:</h1>
+                    <p>{{userNFT['description']}}</p>
+                    <a href="#" class="closeDescription">Close</a>
+                </div>
+            </div>
+            <p>price: {{userNFT['price']}}</p>
+            <p>amount: {{userNFT['amount']}}</p>
+            <form method="post" class="lkSell">
+                <input type="number" name="amount" placeholder="amount" autocapitalize="off" size="5px" max="{{userNFT['amount']}}" required>
+                <button name="id" value="{{userNFT['id']}}">Sell</button>
             </form>
         </div>
     {% endfor %}
     </div>
-
 </div>
-{% with messages = get_flashed_messages(category_filter='') %}
-   {% if messages %}
-      {% for message in messages %}
-         {{ message }}
-      {% endfor %}
-   {% endif %}
-{% endwith %}
-<div>
+
+<div class="myNFT">
     <h1>MY Collection</h1>
-    <div>
-        {% for Get_All_User_Collection in Get_All_User_Collections %}
-            <div>
-                <h3>{{ Get_All_User_Collection }}</h3>
+    <div class="in-myNFTS">
+        {% for _collection in _collection %}
+            <div class="in-myNFT">
+                <h3>Name: {{ _collection['name'] }}</h3>
+                <a href="#" class="descriptionLink">▽ Description</a>
+           <div class="descriptionModal">
+                <div class="modalContent">
+                    <h1>Description:</h1>
+                    <p>{{userNFT['description']}}</p>
+                    <a href="#" class="closeDescription">Close</a>
+                </div>
+            </div>
+                <h3>{{ _collection['description'] }}</h3>
+                <a href="/setAction/{{_collection['id']}}">Create Action </a>
+                <a href="/SetNFTcollection/{{_collection['id']}}">Create NFT in Collection</a>
             </div>
         {% endfor %}
+
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const descriptionLinks = document.querySelectorAll(".descriptionLink");
+    const descriptionModals = document.querySelectorAll(".descriptionModal");
+
+    descriptionLinks.forEach((link, index) => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+            descriptionModals[index].style.display = "block";
+        });
+    });
+
+    const closeButtons = document.querySelectorAll(".closeDescription");
+    closeButtons.forEach(button => {
+        button.addEventListener("click", function(e) {
+            e.preventDefault();
+            this.closest(".descriptionModal").style.display = "none";
+        });
+    });
+});
+</script>
 
 {% endblock %}

@@ -5,9 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/style.css">
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <title>NFT </title>
 </head>
 <body>
+    <header>
+        <div id="flashMessage">
+            {% for message in get_flashed_messages() %}
+                {% if message != [] %}
+                    {% if message == "Успешно" %}
+                        <div id="flash" class="flash">
+                            <h3>{{ message }}</h3> 
+                        </div>
+                    {% else %}
+                        <div id="flash" class="error">
+                            <h3>{{message}}</h3>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </header>
     <div class="sidenav">
         {% if session.get('user') == None %}
             <a href="/">Home</a>
@@ -19,7 +37,8 @@
             <a href="/lk">LK</a>
             <a href="#zatemnenieProfile">Profile</a>
             <a href="/NFT">NFT</a>
-            <a href="/Set_Only_NFT">Set NFT</a>
+            <a href="/SetNFT">Set NFT</a>
+            <a href="/setCollection">Set Collection</a>
             <a href="/Action">Action</a>
             <a href="/#zatemnenieBuy">Buy Profi</a>
             <a href="/logout">Logout</a>
@@ -33,30 +52,21 @@
                     <h1>Profile:</h1>
                     <h2>Login:  {{ session["user"][1] }}</h2>
                     <p>Addres account:   {{ session["user"][0] }}</p>
-                    <a href="" class="closeProfile">Закрыть</a>
+                    <a href="" class="closeProfile">Close</a>
                 </div>
             </div>
         </div>
     {% endif %}
+
     <div>
         <div id="zatemnenieBuy">
             <div id="oknoBuy">
                 <h1>Покупка Токенов</h1>
                 <form method="post">
-                    <input type="text" name="amount" placeholder="amount" title="amount" required>
-                    <button type="submit">Купить</button>
+                    <input type="number" name="amount" placeholder="amount" title="amount" min="1" required>
+                    <button type="submit">Buy</button>
                 </form>
-                <a href="" class="closeBuy">Закрыть</a>
-                <div>
-                    {% with messages = get_flashed_messages(category_filter='') %}
-                        {% if messages %}
-                            {% for message in messages %}
-                                {{ message }}
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                
-                </div>
+                <a href="" class="closeBuy">Close</a>
             </div>
         </div>
     </div>
@@ -102,5 +112,18 @@
             console.log("Recover Address: " + recoverAddress);
         }
     </script> -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var flashMessage = document.getElementById("flashMessage");
+        if (flashMessage.innerHTML.trim() !== "") {
+            var menu = document.getElementById("flash");
+            menu.style.display = "block";
+    
+            setTimeout(function() {
+                menu.style.display = "none";
+            }, 5000); // 5000 миллисекунд (5 секунд)
+        }
+        });
+    </script>
 </body>
 </html>

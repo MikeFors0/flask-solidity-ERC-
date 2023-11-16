@@ -5,31 +5,52 @@ from .web import func
 import json
 from datetime import datetime
 
+
 def render(html, args=None):
-    Get_All_Action=func(name="Get_All_Action")
-    print(Get_All_Action)
-    Get_All_User_NFTS=web.func("Get_All_User_NFT")
-    lenNFTuser = len(Get_All_User_NFTS[0])
+    allAction = func(name="Get_All_Action")
+    convertAction = []
+    len_array = 0
+    if len(allAction) != 0:
+        for i in range(len(allAction)):
+            collection = web.func("Get_One_Collection", args=[allAction[i][1]])
+            len_array = len(collection[1])
+            _nft_json = []
+            for t in range(len_array):
+                _jsons = json.load(open(f"./app/json/{'nft_'+ str(collection[1][t]) + '.json'}"))
+                _nft_json.append(_jsons)
+                print(_nft_json[0])
+                
+            start = str(datetime.fromtimestamp(allAction[i][3])).split(",")[0]
+            end = str(datetime.fromtimestamp(allAction[i][4])).split(",")[0]
+            convertAction.append([allAction[i][0], _nft_json, allAction[i][2], start, end, allAction[i][5]])
+    allSellNFT=func(name="Get_All_Sell_NFT")
+    sellNFT = []
+    for i in range(len(allSellNFT)):
+        _json = json.load(open(f"./app/json/{'nft_' + str(allSellNFT[i][1][0]) + '.json'}"))
+        sellNFT.append([allSellNFT[i][0], allSellNFT[i][2],allSellNFT[i][3], _json])
+    allUserNFT=web.func("Get_All_User_NFT")
+    lenNFTuser = len(allUserNFT[0])
     _nft = []
     for i in range(lenNFTuser):
-        _nft.append(json.load(open(f'./app/json/{"nft_" + str(Get_All_User_NFTS[0][i][0]) + ".json"}')))
+        _nft.append(json.load(open(f'./app/json/{"nft_" + str(allUserNFT[0][i][0]) + ".json"}')))
     userCollection = web.func("Get_All_User_Collections")
-    len_collection = len(userCollection)
     _collection = []
-    for i in range(len_collection):
+    for i in range(len(userCollection)):
         _collection.append(json.load(open(f'./app/json/{"collection_" + str(userCollection[i][0]) + ".json"}')))
     return render_template(f"{html}.html",  
-                           Get_All_Sell_NFT=func(name="Get_All_Sell_NFT"), 
-                           Get_All_Action=func(name="Get_All_Action"),
+                           sellNFT=sellNFT, 
                            address_contract=web.config['address'],
                            Get_Ballanse=web.func("Get_Ballanse"),
                            userNFT=_nft,
                            Get_One_Action=func(name="Get_One_Action", args=[args]),
-                           _collection=_collection)
+                           _collection=_collection,
+                           action = convertAction,
+                           len_array=len_array)
 
 
 def check_result(res):
     if isinstance(res, str):
+        print(res)
         flash(res.split("'")[1])
     else:
         flash('Успешно')
@@ -54,8 +75,17 @@ def NFT():
     return render('NFT')
 
 # вывод всех аукционов , в каждом есть коллекция с нфт
-@app.route('/Action')
+@app.route('/Action', methods=["GET", "POST"])
 def Action():
+    if request.method == "POST":
+        if request.form == "bet":
+            id = request.form.get("id", type=int)
+            bet = request.form.get("bet", type=int)
+            res = web.func("Set_Bet_To_Action", args=[id, bet])
+        else:
+            id = request.form.get("id", type=int)
+            res = web.func("End_Action", args=[id])
+            print(res)
     return render("Action")
 
 
@@ -90,12 +120,12 @@ def setNFT():
         price = request.form.get("price",  type=int)
         res = web.func(name="Set_Only_NFT", args=[amount, price], operation="transact")
         check_result(res)
-        nftData = {
-            "id":           id,
-            "name":         name,
-            "description":  description,
-            "amount":       amount,
-            "price":        price,
+        nftData =  {
+            "id":id,
+            "name":name,
+            "description":description,
+            "amount":amount, 
+            "price":price,
         }
         filename = f"./app/json/nft_{id}.json"
         with open(filename, 'w') as file:
@@ -131,7 +161,6 @@ def logout():
     return redirect('/login')
 
 
-
 # создание колеции для добавления в нее нфт
 @app.route('/setCollection', methods=["GET", 'POST'])
 def SetCollection():
@@ -164,15 +193,13 @@ def SetNFTcollection(id):
         name = request.form.get('name')
         description = request.form.get('description')
         amount = request.form.get('amount', type=int)
-        res = web.func("Set_NFT_In_Collection", args=[id, amount])
+        res = web.func("Set_NFT_In_Collection", args=[id, amount], operation="transact")
         check_result(res)
         nftData = {
-            f"nft_{id}": {
-                "id":           id,
-                "name":         name,
-                "description":  description,
-                "amount":       amount,
-            }
+            "id":           id,
+            "name":         name,
+            "description":  description,
+            "amount":       amount,
         }
         filename = f"./app/json/nft_{id}.json"
         with open(filename, 'w') as file:
@@ -196,30 +223,11 @@ def setAction(id):
         min = request.form.get('min', type=int)
         max = request.form.get('max', type=int)
         print(_start, _end, min, max)
-        res = web.func("Set_Action", args=[id, _start, _end, min, max])
+        res = web.func("Set_Action", args=[id, _start, _end, min, max], operation="transact")
         print(res)
         check_result(res)
     return render("setAction")
 
-
-# создание ставки к ауциону
-@app.route('/Action/setBet/<int:id>', methods=['GET', 'POST'])
-def setBet(id):
-    if not session.get('user'): return redirect('/login')
-    if request.method == "POST":
-        bet = request.form.get("bet")
-        res = web.func("Set_Bet_To_Action", args=[id, bet])
-        check_result(res)
-    return render("setBet")
-
-
-# принудительное завершение
-@app.route('/Action/endAaction/<int:id>', methods=['GET', 'POST'])
-def endAction(id):
-    if not session.get('user'): return redirect('/login')
-    if request.method == 'POST':
-        res = web.func("End_Action", args=[id])
-    return render("endAction")
 
 # переход на конкретный аукцион
 # @app.route('/Action/<int:id>')

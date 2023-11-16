@@ -41,35 +41,11 @@
                     <a href="#" class="closeDescription">Close</a>
                 </div>
             </div>
-                <h3>{{ _collection['description'] }}</h3>
                 <a href="/setAction/{{_collection['id']}}">Create Action </a>
                 <a href="/SetNFTcollection/{{_collection['id']}}">Create NFT in Collection</a>
             </div>
         {% endfor %}
-
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-    const descriptionLinks = document.querySelectorAll(".descriptionLink");
-    const descriptionModals = document.querySelectorAll(".descriptionModal");
-
-    descriptionLinks.forEach((link, index) => {
-        link.addEventListener("click", function(e) {
-            e.preventDefault();
-            descriptionModals[index].style.display = "block";
-        });
-    });
-
-    const closeButtons = document.querySelectorAll(".closeDescription");
-    closeButtons.forEach(button => {
-        button.addEventListener("click", function(e) {
-            e.preventDefault();
-            this.closest(".descriptionModal").style.display = "none";
-        });
-    });
-});
-</script>
 
 {% endblock %}

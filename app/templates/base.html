@@ -52,6 +52,7 @@
                     <h1>Profile:</h1>
                     <h2>Login:  {{ session["user"][1] }}</h2>
                     <p>Addres account:   {{ session["user"][0] }}</p>
+                    <p>Balance tokens: {{Get_Ballanse}}</p>
                     <a href="" class="closeProfile">Close</a>
                 </div>
             </div>
@@ -61,7 +62,7 @@
     <div>
         <div id="zatemnenieBuy">
             <div id="oknoBuy">
-                <h1>Покупка Токенов</h1>
+                <h1>Buy Tokens</h1>
                 <form method="post">
                     <input type="number" name="amount" placeholder="amount" title="amount" min="1" required>
                     <button type="submit">Buy</button>
@@ -86,32 +87,6 @@
             <small>Address Contract:  {{ address_contract }}</small>
         {% endif %}
     </footer>
-    <!-- <script>
-        var account =null;
-        var signature =null;
-        var message = "Signing message in wallet...";
-
-        (async () => {
-            if (window.ethereum) {
-                await window.ethereum.send('eth_requestAccounts');
-                window.web3 = new Web3(window.ethereum);
-
-                var accounts = await web3.eth.getAccounts();
-                account = accounts[0];
-                document.getElementById("wallet-address").innerHTML = account;
-            }
-        })();
-        
-        async function signMessage() {
-            signature = await web3.eth.personal.sign(message, account);
-            console.log("Signature" + signature);
-        }
-        async function recover() {
-            var recoverAddress = await web3.eth.personal.ecRecover(message, signature);
-            document.getElementById("wallet-address").innerHTML = recoverAddress;
-            console.log("Recover Address: " + recoverAddress);
-        }
-    </script> -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
         var flashMessage = document.getElementById("flashMessage");
@@ -124,6 +99,27 @@
             }, 5000); // 5000 миллисекунд (5 секунд)
         }
         });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const descriptionLinks = document.querySelectorAll(".descriptionLink");
+        const descriptionModals = document.querySelectorAll(".descriptionModal");
+    
+        descriptionLinks.forEach((link, index) => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                descriptionModals[index].style.display = "block";
+            });
+        });
+    
+        const closeButtons = document.querySelectorAll(".closeDescription");
+        closeButtons.forEach(button => {
+            button.addEventListener("click", function(e) {
+                e.preventDefault();
+                this.closest(".descriptionModal").style.display = "none";
+            });
+        });
+    });
     </script>
 </body>
 </html>

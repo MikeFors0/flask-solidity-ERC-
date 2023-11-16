@@ -266,10 +266,28 @@ footer p,footer small{
     margin: auto;
     background: #1c1c1c;
   }
+
   #oknoBuy form {
-    border: 2px solid red;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-width:fit-content;
+    
 
   }
+
+  #oknoBuy form button {
+    font-size: 17px;
+    background-color: red;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 15px;
+  }
+  #oknoBuy form button:hover {
+    background-color: white;
+    color: red;
+  }
+
   #oknoBuy input, #oknoBuy h1, #oknoBuy h2 {
       margin: 10px;
   }
@@ -312,8 +330,12 @@ footer p,footer small{
     border-radius: 30px;
 }
 
+.modalContent h1, .modalContent h2, .modalContent p {
+    margin:13px;
+}
+
 .modalContent h1 {
-    margin-top: -20px;
+    margin-top: -25px;
 }
 
 .modalContent p {

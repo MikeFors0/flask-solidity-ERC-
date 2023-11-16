@@ -4,19 +4,28 @@
 {% block main %}
 
 <div class="myNFT">
-    <h1>NFT</h1>
+    <h1>NFT for buy</h1>
     <div class="in-myNFTS">
-        {% for Get_All_Sell_NFT in Get_All_Sell_NFT %}
-            <div class="in-myNFT">
-                <h3>Name: {{ Get_All_Sell_NFT}}</h3>
-                {% if session.get('user') != None %}
-                    <form method="post" class="lkSell" >
-                        <input type="number" name="amount" placeholder="amount" size="5px" min="1" max="{{Get_All_Sell_NFT[3]}}" required>
-                        <button name="id" value="{{Get_All_Sell_NFT[0]}}">Buy</button>
-                    </form>
-                {% endif %}
+        {% for sellNFT in sellNFT %}
+        <div class="in-myNFT">
+            <h3>Name:{{ sellNFT[3]['name']}}</h3>
+            <a href="#" class="descriptionLink">▽ Description</a>
+            <div class="descriptionModal">
+                <div class="modalContent">
+                    <h1>Description:</h1>
+                    <p>{{ sellNFT[3]['description']}}</p>
+                    <a href="#" class="closeDescription">Close</a>
+                </div>
             </div>
+            <p>price: {{sellNFT[3]['price']}}</p>
+            <p>amount: {{sellNFT[3]['amount']}}</p>
+            <form method="post" class="lkSell">
+                <input type="number" name="amount" placeholder="amount" autocapitalize="off" size="5px" max="{{userNFT['amount']}}" required>
+                <button name="id" value="{{sellNFT[3]['id']}}">Buy</button>
+            </form>
+        </div>
         {% endfor %}
     </div>
 </div>
+
 {% endblock %}

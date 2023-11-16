@@ -17,7 +17,7 @@ contract Contract is ERC20, ERC1155 {
 
     address Owner = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
 
-    uint public price_profi_token = 1;
+    uint public price_profi_token = 10000;
 
 
     struct User {
@@ -102,9 +102,13 @@ contract Contract is ERC20, ERC1155 {
         return action_collection;
     }
 
-    // function Get_One_Action(uint id) public view returns(Action memory) {
-    //     return action_collection[id];
-    // }
+    function Get_One_Action(uint id) public view returns(Action memory) {
+        return action_collection[id];
+    }
+
+    function Get_One_Collection(uint id) public view returns(Collection memory) {
+        return collection[id];
+    }
 
     function Get_All_Bet_To_Action(uint id_action) public view returns(Bet[] memory) {
         return bet_action[id_action];
@@ -160,10 +164,10 @@ contract Contract is ERC20, ERC1155 {
 
 
 
-
+                   
     function Buy_Profi(uint amount) public payable {
         require(msg.value == amount * price_profi_token, "Invalid msg.value");
-        payable(msg.sender).transfer(amount * price_profi_token);
+        payable(Owner).transfer(amount * price_profi_token);
         ERC20._transfer(Owner, msg.sender, amount);
     }
 
@@ -223,6 +227,9 @@ contract Contract is ERC20, ERC1155 {
         require(nft[nft_sell[index].Nft.Id].Sale == true, "This token not sell");
         require(ERC20.balanceOf(msg.sender) >= amount * _price, "Not money");
 
+
+
+
         if (amount == nft_sell[index].Amount_To_Sell) {
             if (index < nft_sell.length) {
                 nft_sell[nft_sell.length -1].Id  = nft_sell[index].Id;
@@ -232,15 +239,18 @@ contract Contract is ERC20, ERC1155 {
             nft_sell.pop();
             nft[_id_token].Sale = false;
 
-            user_amount_variety_nft[_owner] -= 1;
-
         } else {
             nft_sell[index].Amount_To_Sell -= amount;
         }
 
         ERC20._transfer(msg.sender, _owner, amount * _price);
 
-        ERC1155.safeTransferFrom(
+
+        if(ERC1155.balanceOf(msg.sender, _id_token) == 0) {
+            user_amount_variety_nft[msg.sender] += 1;
+        }
+
+        ERC1155._safeTransferFrom(
                 _owner, 
                 msg.sender, 
                 _id_token, 
@@ -248,11 +258,16 @@ contract Contract is ERC20, ERC1155 {
                 ""
         );
 
-        user_amount_variety_nft[msg.sender] += 1;
+
+        if (ERC1155.balanceOf(_owner, _id_token) == 0) {
+            user_amount_variety_nft[_owner] -= 1;
+        }
+
+
     }
     
     
-    function Set_Collection() public{
+    function Set_Collection() public {
         collection[amount_collection] = Collection(
             amount_collection,
             new uint[](0),
@@ -311,6 +326,9 @@ contract Contract is ERC20, ERC1155 {
 
         collection[id_collection].Sale = true;
 
+
+        bet_action[action_collection.length].push(Bet(0, address(0), min_price));
+
         action_collection.push(Action(
             action_collection.length,
             id_collection,
@@ -321,21 +339,22 @@ contract Contract is ERC20, ERC1155 {
             max_price,
             0
         ));
+
     }
 
 
 
     function Set_Bet_To_Action(uint id, uint bet) public {
-        require(id <= action_collection.length, "Invalid id");
-        require(action_collection[id].Time_Start <= block.timestamp, "Action don't start");
-        require(action_collection[id].Time_End >= block.timestamp, "Action the end");
+        require(id < action_collection.length, "Invalid id");
+        // require(action_collection[id].Time_Start <= block.timestamp, "Action don't start");
+        // require(action_collection[id].Time_End >= block.timestamp, "Action the end");
         require(ERC20.balanceOf(msg.sender) >= bet, "Invalid money");
         require(action_collection[id].Min_Price <= bet, "You're bet small start bet");
         require(action_collection[id].Max_Price >= bet, "You're bet many max bet");
         require(bet_action[id][action_collection[id].Index_Max_Bet].Price < bet, "Bet is small");
-
+ 
         action_collection[id].Index_Max_Bet = bet_action[id].length;
-
+        
         bet_action[id].push(Bet(
             bet_action[id].length,
             msg.sender,
@@ -350,8 +369,8 @@ contract Contract is ERC20, ERC1155 {
 
         require(id <= action_collection.length, "Invalid id");
         require(action_collection[id].Owner == msg.sender, "You're not Owner thic Action!");
-        require(action_collection[id].Time_Start < block.timestamp, "Action don't start");
-        require(action_collection[id].Time_End >= block.timestamp, "Action the end");
+        // require(action_collection[id].Time_Start < block.timestamp, "Action don't start");
+        // require(action_collection[id].Time_End >= block.timestamp, "Action the end");
 
 
         ERC20._transfer(
@@ -361,7 +380,7 @@ contract Contract is ERC20, ERC1155 {
         );
 
 
-        ERC1155.safeBatchTransferFrom(
+        ERC1155._safeBatchTransferFrom(
             msg.sender, 
             _owner_bet, 
             collection[action_collection[id].Id_Collection].Nft_In_Collection,
@@ -375,6 +394,7 @@ contract Contract is ERC20, ERC1155 {
 
         bet_action[id] = bet_action[action_collection.length -1];
         delete bet_action[action_collection.length -1];
+        
         if (id < action_collection.length) {
             action_collection[action_collection.length -1].Id = action_collection[id].Id;
             action_collection[id] = action_collection[action_collection.length -1];
@@ -424,23 +444,18 @@ contract Contract is ERC20, ERC1155 {
 
 
     constructor() ERC20("Professional", "PROFI") ERC1155("uri") {
-        ERC20._mint(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, 1000000);
+        ERC20._mint(0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199, 1000000);
 
-        user[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] = User(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, "Gey");
+        user[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] = User(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, "Owner");
+        ERC20._transfer(Owner, 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, 100000);
 
-        
+        user[0x70997970C51812dc3A010C7d01b50e0d17dc79C8] = User(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, "Tom");
+        ERC20._transfer(Owner, 0x70997970C51812dc3A010C7d01b50e0d17dc79C8, 200000);
 
+        user[0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC] = User(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, "Max");
+        ERC20._transfer(Owner, 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, 300000);
 
-
-
-
-        user[0x70997970C51812dc3A010C7d01b50e0d17dc79C8] = User(0x70997970C51812dc3A010C7d01b50e0d17dc79C8, "gdfgdfg");
-
-
-        user[0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC] = User(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, "ouipouio");
-
-        user[0x90F79bf6EB2c4f870365E785982E1f101E93b906] = User(0x90F79bf6EB2c4f870365E785982E1f101E93b906, "vbnvbn");
-
-
+        user[0x90F79bf6EB2c4f870365E785982E1f101E93b906] = User(0x90F79bf6EB2c4f870365E785982E1f101E93b906, "Jack");
+        ERC20._transfer(Owner, 0x90F79bf6EB2c4f870365E785982E1f101E93b906, 400000);
     }
 }

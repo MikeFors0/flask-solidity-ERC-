@@ -3,12 +3,40 @@
 
 {% block main %}
 
-<div>
+<div class="myNFT">
     <h1>Actions</h1>
-    <div>
-        {% for Get_All_Action in Get_All_Actions %}
-            <div>
-                <h3>{{ Get_All_Action }}</h3>
+    <div class="in-myNFTS">
+        {% for action in action %}
+            <div class="in-myNFT">
+                <h3>Name:{{action[1][0]['name']}}</h3>
+                <a href="#" class="descriptionLink">▽ Auction</a>
+                <div class="descriptionModal">
+                    <div class="modalContent">
+                        <h1>Collection:</h1>
+                        <p>Description: {{action[1][0]['description']}}</p>
+                        <p>Amount: {{action[1][0]['amount']}}</p>
+                        <p>Autor: {{action[2]}}</p>
+                        <h2>Details:</h2>
+                        <p>Start time at: {{action[3]}}</p>
+                        <p>End time at: {{action[4]}}</p>
+                        <p>Min bet: {{action[5]}}</p>
+                        <p>Max bet: {{action[6]}}</p>
+                        <a href="#" class="closeDescription">Close</a>
+                    </div>
+                </div>
+                {% if session.get('user') != None %}
+                    <form name="bet" method="post">
+                        <input type="number" name="bet" placeholder="bet" autocomplete="off" size="5px" min="{{action[5]}}+1" max="{{action[6]}}" required>
+                        <button name="id" value="{{action[0]}}">Bet</button>
+                    </form>
+                {% endif %}
+                {% if session.get('user') != None %}
+                    {% if session.get('user')[0] == action[2] %}
+                        <form id="1" method="post">
+                            <button name="id" value="{{action[0]}}">End action</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
             </div>
         {% endfor %}
     </div>

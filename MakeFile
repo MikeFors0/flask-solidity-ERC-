@@ -1,5 +1,10 @@
 .PHONY: help
 .SILENT:
+VENV           = venv
+VENV_PYTHON    = $(VENV)/bin/python
+SYSTEM_PYTHON  = $(or $(shell which python3), $(shell which python))
+# If virtualenv exists, use it. If not, find python using PATH
+PYTHON         = $(or $(wildcard $(VENV_PYTHON)), $(SYSTEM_PYTHON))
 all: help install web-start
 
 install: python-install libary-install
@@ -17,18 +22,18 @@ web-start: start-server
 	@echo "  >  Start web..."
 	set -eu
 	clear;
-	python3 manage.py
+	$(PYTHON) manage.py
 
 
 python-install:
 	@echo "  >  Install python3..."
 	sudo apt-get install python3
-	sudo python3 -m pip install pip
+	python3 -m pip install pip
 
 
 libary-install:
 	@echo "  >  Install libraries for python3..."
-	pip install -r requirments/requirements.txt
+	$(PYTHON) -m pip install -r requirments/requirements.txt
 
 
 help: 

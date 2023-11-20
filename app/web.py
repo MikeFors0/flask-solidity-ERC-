@@ -2,7 +2,7 @@ from web3 import Web3
 import json
 from eth_account.messages import encode_defunct
 
-config = json.load(open('HardHat/artifacts/contracts/contract.sol/Contract.json'))
+config = json.load(open('app/HardHat/artifacts/contracts/contract.sol/Contract.json'))
 w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
 contract = w3.eth.contract(address=config['address'], abi=config['abi'])
 

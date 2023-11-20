@@ -1,0 +1,45 @@
+.PHONY: help
+.SILENT:
+all: help install web-start
+
+install: python-install libary-install
+
+start-server:
+	@echo "  >  Start server..."
+	cd app/HardHat && bash HardhatStart.sh
+	
+
+stop-server:
+	@echo "  >  Stop server..."
+	sudo systemctl stop mongod
+
+web-start: start-server
+	@echo "  >  Start web..."
+	set -eu
+	clear;
+	python3 manage.py
+
+
+python-install:
+	@echo "  >  Install python3..."
+	sudo apt-get install python3
+	sudo python3 -m pip install pip
+
+
+libary-install:
+	@echo "  >  Install libraries for python3..."
+	pip install -r requirments/requirements.txt
+
+
+help: 
+	@echo "Choose a command run in Flask_web:"
+	@echo ""
+	@echo "Targets:"
+	@echo "  web-run       		Run the Web project"
+	@echo "  python-install       	Install python3 version"
+	@echo "  libary-install       	Installing libraries and dependencies"
+	@echo "  help         		Show this help message"
+	@echo ""
+	@echo ""
+	@echo ""
+	@echo "©Creator - https://github.com/MikeFors0/"
